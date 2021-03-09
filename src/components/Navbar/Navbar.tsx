@@ -1,13 +1,19 @@
-import React, { useCallback } from 'react';
-import { AppBar, Box, Button, InputBase, Toolbar, Typography } from '@material-ui/core';
+import React, { useCallback, useState } from 'react';
+import { AppBar, Box, Button, InputBase, Toolbar, Typography, Dialog } from '@material-ui/core';
 
 import { useCargoData } from 'src/contexts';
 
 import { useInputStyles, useStyles } from './styles';
 
+
+const localStorageKey = 'cargoData';
+
 export const Navbar: React.FC = () => {
   const classes = useStyles();
   const inputClasses = useInputStyles();
+  const maybeCacheData = localStorage.getItem(localStorageKey);
+  const [isLoadModalOpened, setIsLoadModalOpened] = useState(false)
+  const [isSaveModalOpened, setIsSaveModalOpened] = useState(false)
 
   const { data, load, save, search, setSearch } = useCargoData();
 
@@ -18,9 +24,32 @@ export const Navbar: React.FC = () => {
     [setSearch],
   );
 
+  // Save modal handling
+  // 
+  const handleSave = useCallback(() => {
+    save();
+    handleSaveModalOpen()
+  }, [load]);
+  
+  const handleSaveModalOpen = () => {
+    setIsSaveModalOpened(true)
+  }
+  const handleSaveModalClose = () => {
+    setIsSaveModalOpened(false)
+  }
+  // Load modal handling
+  // 
   const handleLoad = useCallback(() => {
     load();
+    handleLoadModalOpen()
   }, [load]);
+
+  const handleLoadModalOpen = () => {
+    setIsLoadModalOpened(true)
+  }
+  const handleLoadModalClose = () => {
+    setIsLoadModalOpened(false)
+  }
 
   return (
     <Box flexGrow='1'>
@@ -43,12 +72,27 @@ export const Navbar: React.FC = () => {
             <Button variant='contained' size='large' onClick={handleLoad}>
               Load
             </Button>
-            <Button variant='contained' size='large' disabled={!data} onClick={save}>
+            <Button variant='contained' size='large' disabled={!data} onClick={handleSave}>
               Save
             </Button>
           </div>
         </Toolbar>
       </AppBar>
+
+      <Dialog open={isLoadModalOpened} onClose={handleLoadModalClose}>
+        <Box className={classes.dialogBox}>
+          <Typography>Data has been loaded from {maybeCacheData ? "localStorage" : "JSON via fakeFetch"}</Typography>
+          <Button variant='contained' size='small' onClick={handleLoadModalClose}>OK</Button>
+        </Box>
+      </Dialog>
+
+      <Dialog open={isSaveModalOpened} onClose={handleLoadModalClose}>
+        <Box className={classes.dialogBox}>
+          <Typography>Data has been saved</Typography>
+          <Button variant='contained' size='small' onClick={handleSaveModalClose}>OK</Button>
+        </Box>
+      </Dialog>
+
     </Box>
   );
 };

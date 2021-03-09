@@ -1,15 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+
+import { Typography, Dialog, Button, makeStyles, Box } from '@material-ui/core';
 
 import { pathToUrl } from 'src/helpers';
 import { HomeLayout } from 'src/layouts';
 import { Paths } from 'src/paths';
-
 import { HomePage } from './HomePage/HomePage';
 
 const notFoundRedirect = pathToUrl(Paths.Home);
 
+const useStyles = makeStyles(()=> ({
+  dialogBox: {
+    width: "15vw",
+    height: "7vh",
+    textAlign: "center"
+  }
+}))
+
 export const Pages: React.FC = () => {
+
+  const classes = useStyles()
+
+  const [isModalOpened, setIsModalOpened] = useState(true)
+  const handleClose = () => {
+    setIsModalOpened(false)
+  }
+
   return (
     <HomeLayout>
       <Switch>
@@ -20,6 +37,18 @@ export const Pages: React.FC = () => {
           <Redirect to={notFoundRedirect} />
         </Route>
       </Switch>
+      <Dialog open={isModalOpened}>
+        <Box className={classes.dialogBox}>
+          <Typography>
+            Click LOAD to fetch data
+          </Typography>
+          <Button onClick={handleClose}>OK</Button>
+        </Box>
+      </Dialog>
     </HomeLayout>
   );
 };
+
+
+
+  

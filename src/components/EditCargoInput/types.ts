@@ -1,4 +1,4 @@
 export interface IEditCargoInput {
-  boxesValue: string | null;
+  boxesValue: string | null | undefined;
   onEdit(newValue: string): void;
 }

@@ -13,11 +13,8 @@ export const EditCargoInput: React.FC<IEditCargoInput> = ({ boxesValue, onEdit }
   const [error, setError] = useState(false);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    setCurrentValue(value);
+    const { value } = e.target;setCurrentValue(value);
     const isValid = validateRegex.test(value);
-
     setError(!isValid);
   }, []);
 
@@ -35,7 +32,6 @@ export const EditCargoInput: React.FC<IEditCargoInput> = ({ boxesValue, onEdit }
   if (currentValue) {
     const stringifiedBoxes = currentValue.split(',');
     const amount = sumBy(stringifiedBoxes, (x) => +x) / 10;
-
     cargosBays = Math.ceil(amount);
   }
 

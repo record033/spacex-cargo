@@ -23,7 +23,6 @@ export const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
   },
-
   sectionDesktop: {
     display: 'flex',
     width: '10vw',
@@ -36,6 +35,12 @@ export const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  dialogBox: {
+    width: "15vw",
+    height: "auto",
+    textAlign: "center",
+    margin: "1vh 0 1vh 0"
+  }
 }));
 
 export const useInputStyles = makeStyles((theme) => ({

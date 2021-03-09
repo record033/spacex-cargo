@@ -6,6 +6,6 @@ export interface ICargoData {
   load(): void;
   save(): void;
   edit(id: string, newValue: string): void;
-  getCargoById(id: string): ICargo | null;
+  getCargoById(id: string): ICargo | null | undefined;
   setSearch(newSearch:string) : void
 }

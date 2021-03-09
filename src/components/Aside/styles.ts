@@ -5,6 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     width: 360,
     backgroundColor: theme.palette.background.paper,
     display: 'block',
+    
   },
 
   activeLink: {
@@ -20,6 +21,9 @@ export const useStyles = makeStyles((theme) => ({
 
   linksList: {
     overflow: "scroll",
-    height: "91vh"
+    height: "91vh",
+    '@media (minWidth: 900px)' :{
+      width: "100vw"
+    }
   }
 }));

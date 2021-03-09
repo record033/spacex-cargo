@@ -8,7 +8,7 @@ import { ICargoData } from './types';
 
 export const cargoDataContext = createContext<ICargoData>({
   data: null,
-  search: "",
+  search: '',
   setSearch: noop,
   edit: noop,
   load: noop,
@@ -50,10 +50,10 @@ export const CargoDataContextProvider: React.FC = ({ children }) => {
 
   const handleEdit = useCallback(
     (id: string, newValue: string) => {
+      
       if (!data) {
         return;
       }
-
       const cargoDataIndex = data.findIndex((x) => x.id === id);
       const cargoData = data[cargoDataIndex];
 
@@ -61,6 +61,8 @@ export const CargoDataContextProvider: React.FC = ({ children }) => {
         ...cargoData,
         boxes: newValue,
       };
+      
+      
       setData([...data]);
     },
     [data],
@@ -85,9 +87,9 @@ export const CargoDataContextProvider: React.FC = ({ children }) => {
 
   const handleGetCargoById = useCallback(
     (id: string) => {
-      return filteredData?.find((x) => x.id === id) ?? null;
+      return data?.find((x) => x.id === id) ?? null;
     },
-    [filteredData],
+    [data],
   );
 
   const values: ICargoData = useMemo(() => {

@@ -26,7 +26,7 @@ export const Aside: React.FC = () => {
             to={pathToUrl(Paths.Home, {
               companyId: x.id,
             })}
-            activeClassName={classes.activeLink}
+            exact activeClassName={classes.activeLink}
             className={classes.itemLink}
           >
             <ListItem>
