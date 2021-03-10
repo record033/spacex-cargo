@@ -1,19 +1,26 @@
-import React, { useCallback, useState } from 'react';
-import { AppBar, Box, Button, InputBase, Toolbar, Typography, Dialog } from '@material-ui/core';
+import React, { useCallback, useState } from "react";
+import {
+  AppBar,
+  Box,
+  Button,
+  Dialog,
+  InputBase,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 
-import { useCargoData } from 'src/contexts';
+import { useCargoData } from "src/contexts";
 
-import { useInputStyles, useStyles } from './styles';
+import { useInputStyles, useStyles } from "./styles";
 
-
-const localStorageKey = 'cargoData';
+const localStorageKey = "cargoData";
 
 export const Navbar: React.FC = () => {
   const classes = useStyles();
   const inputClasses = useInputStyles();
   const maybeCacheData = localStorage.getItem(localStorageKey);
-  const [isLoadModalOpened, setIsLoadModalOpened] = useState(false)
-  const [isSaveModalOpened, setIsSaveModalOpened] = useState(false)
+  const [isLoadModalOpened, setIsLoadModalOpened] = useState(false);
+  const [isSaveModalOpened, setIsSaveModalOpened] = useState(false);
 
   const { data, load, save, search, setSearch } = useCargoData();
 
@@ -21,58 +28,63 @@ export const Navbar: React.FC = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearch?.(e.target.value);
     },
-    [setSearch],
+    [setSearch]
   );
 
   // Save modal handling
-  // 
+  //
   const handleSave = useCallback(() => {
     save();
-    handleSaveModalOpen()
+    handleSaveModalOpen();
   }, [save]);
-  
+
   const handleSaveModalOpen = () => {
-    setIsSaveModalOpened(true)
-  }
+    setIsSaveModalOpened(true);
+  };
   const handleSaveModalClose = () => {
-    setIsSaveModalOpened(false)
-  }
+    setIsSaveModalOpened(false);
+  };
   // Load modal handling
-  // 
+  //
   const handleLoad = useCallback(() => {
     load();
-    handleLoadModalOpen()
+    handleLoadModalOpen();
   }, [load]);
 
   const handleLoadModalOpen = () => {
-    setIsLoadModalOpened(true)
-  }
+    setIsLoadModalOpened(true);
+  };
   const handleLoadModalClose = () => {
-    setIsLoadModalOpened(false)
-  }
+    setIsLoadModalOpened(false);
+  };
 
   return (
-    <Box flexGrow='1'>
-      <AppBar position='static'>
+    <Box flexGrow="1">
+      <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant='h6' noWrap>
+          <Typography className={classes.title} variant="h6" noWrap>
             SpaceX Cargo Planner
           </Typography>
           <div className={classes.search}>
             <InputBase
-              placeholder='Search…'
+              placeholder="Search…"
               classes={inputClasses}
               value={search}
               onChange={handleChange}
             />
           </div>
-          <Box flexGrow='1' />
+          <Box flexGrow="1" />
 
           <div className={classes.sectionDesktop}>
-            <Button variant='contained' size='large' onClick={handleLoad}>
+            <Button variant="contained" size="large" onClick={handleLoad}>
               Load
             </Button>
-            <Button variant='contained' size='large' disabled={!data} onClick={handleSave}>
+            <Button
+              variant="contained"
+              size="large"
+              disabled={!data}
+              onClick={handleSave}
+            >
               Save
             </Button>
           </div>
@@ -81,18 +93,32 @@ export const Navbar: React.FC = () => {
 
       <Dialog open={isLoadModalOpened} onClose={handleLoadModalClose}>
         <Box className={classes.dialogBox}>
-          <Typography>Data has been loaded from {maybeCacheData ? "localStorage" : "JSON via fakeFetch"}</Typography>
-          <Button variant='contained' size='small' onClick={handleLoadModalClose}>OK</Button>
+          <Typography>
+            Data has been loaded from{" "}
+            {maybeCacheData ? "localStorage" : "JSON via fakeFetch"}
+          </Typography>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleLoadModalClose}
+          >
+            OK
+          </Button>
         </Box>
       </Dialog>
 
       <Dialog open={isSaveModalOpened} onClose={handleLoadModalClose}>
         <Box className={classes.dialogBox}>
           <Typography>Data has been saved</Typography>
-          <Button variant='contained' size='small' onClick={handleSaveModalClose}>OK</Button>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleSaveModalClose}
+          >
+            OK
+          </Button>
         </Box>
       </Dialog>
-
     </Box>
   );
 };

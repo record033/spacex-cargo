@@ -38,10 +38,10 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   dialogBox: {
-    width: "15vw",
+    width: "15em",
     height: "auto",
     textAlign: "center",
-    margin: "1vh 0 1vh 0"
+    margin: "1em 0 1em 0"
   }
 }));
 
