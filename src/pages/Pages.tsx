@@ -12,9 +12,10 @@ const notFoundRedirect = pathToUrl(Paths.Home);
 
 const useStyles = makeStyles(() => ({
   dialogBox: {
-    width: "15vw",
-    height: "7vh",
+    width: "15em",
+    height: "auto",
     textAlign: "center",
+    margin: "1em 0 1em 0",
   },
 }));
 
