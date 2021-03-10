@@ -29,7 +29,7 @@ export const Navbar: React.FC = () => {
   const handleSave = useCallback(() => {
     save();
     handleSaveModalOpen()
-  }, [load]);
+  }, [save]);
   
   const handleSaveModalOpen = () => {
     setIsSaveModalOpened(true)
