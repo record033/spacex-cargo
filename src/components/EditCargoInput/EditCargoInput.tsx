@@ -44,7 +44,11 @@ export const EditCargoInput: React.FC<IEditCargoInput> = ({
 
   return (
     <>
-      <Typography>Number of required cargos bays {cargosBays || 0}</Typography>
+      <Typography>
+        {cargosBays
+          ? `Number of required cargos bays is ${cargosBays}`
+          : "Invalid data"}
+      </Typography>
       <TextField
         value={currentValue}
         label="Cargo Boxes"

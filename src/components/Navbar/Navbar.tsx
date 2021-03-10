@@ -21,8 +21,9 @@ export const Navbar: React.FC = () => {
   const maybeCacheData = localStorage.getItem(localStorageKey);
   const [isLoadModalOpened, setIsLoadModalOpened] = useState(false);
   const [isSaveModalOpened, setIsSaveModalOpened] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  const { data, load, save, search, setSearch } = useCargoData();
+  const { load, save, search, setSearch } = useCargoData();
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +50,7 @@ export const Navbar: React.FC = () => {
   const handleLoad = useCallback(() => {
     load();
     handleLoadModalOpen();
+    setIsLoaded(true);
   }, [load]);
 
   const handleLoadModalOpen = () => {
@@ -82,7 +84,7 @@ export const Navbar: React.FC = () => {
             <Button
               variant="contained"
               size="large"
-              disabled={!data}
+              disabled={!isLoaded}
               onClick={handleSave}
             >
               Save
