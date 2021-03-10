@@ -1,14 +1,14 @@
-import React, { createContext, useCallback, useMemo, useState } from 'react';
-import { noop } from 'lodash-es';
+import React, { createContext, useCallback, useMemo, useState } from "react";
+import { noop } from "lodash-es";
 
-import { fakeRequest } from 'src/helpers';
-import { ICargo } from 'src/types';
+import { fakeRequest } from "src/helpers";
+import { ICargo } from "src/types";
 
-import { ICargoData } from './types';
+import { ICargoData } from "./types";
 
 export const cargoDataContext = createContext<ICargoData>({
   data: null,
-  search: '',
+  search: "",
   setSearch: noop,
   edit: noop,
   load: noop,
@@ -16,11 +16,11 @@ export const cargoDataContext = createContext<ICargoData>({
   getCargoById: () => null,
 });
 
-const localStorageKey = 'cargoData';
+const localStorageKey = "cargoData";
 
 export const CargoDataContextProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<ICargo[] | null>(null);
-  const [search, setSearch] = useState<string>("")
+  const [search, setSearch] = useState<string>("");
 
   const handleLoad = useCallback(async () => {
     const maybeCacheData = localStorage.getItem(localStorageKey);
@@ -50,7 +50,6 @@ export const CargoDataContextProvider: React.FC = ({ children }) => {
 
   const handleEdit = useCallback(
     (id: string, newValue: string) => {
-      
       if (!data) {
         return;
       }
@@ -61,35 +60,34 @@ export const CargoDataContextProvider: React.FC = ({ children }) => {
         ...cargoData,
         boxes: newValue,
       };
-      
-      
+
       setData([...data]);
     },
-    [data],
+    [data]
   );
-
-
 
   const filteredData: ICargo[] | null = useMemo(() => {
     if (!search || !data) {
-      return data
+      return data;
     }
-    const formatedSearch = search.toLowerCase()
+    const formatedSearch = search.toLowerCase();
 
-    const filteredData = data.filter(x => x.name.toLowerCase().includes(formatedSearch));
+    const filteredData = data.filter((x) =>
+      x.name.toLowerCase().includes(formatedSearch)
+    );
 
     if (filteredData.length === 0) {
-      return null
+      return null;
     }
 
-    return filteredData
-  }, [data, search])
+    return filteredData;
+  }, [data, search]);
 
   const handleGetCargoById = useCallback(
     (id: string) => {
       return data?.find((x) => x.id === id) ?? null;
     },
-    [data],
+    [data]
   );
 
   const values: ICargoData = useMemo(() => {
@@ -102,7 +100,18 @@ export const CargoDataContextProvider: React.FC = ({ children }) => {
       save: handleSave,
       getCargoById: handleGetCargoById,
     };
-  }, [filteredData, search, handleEdit, handleLoad, handleSave, handleGetCargoById]);
+  }, [
+    filteredData,
+    search,
+    handleEdit,
+    handleLoad,
+    handleSave,
+    handleGetCargoById,
+  ]);
 
-  return <cargoDataContext.Provider value={values}>{children}</cargoDataContext.Provider>;
+  return (
+    <cargoDataContext.Provider value={values}>
+      {children}
+    </cargoDataContext.Provider>
+  );
 };
