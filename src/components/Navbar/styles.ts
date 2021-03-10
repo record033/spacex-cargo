@@ -25,9 +25,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   sectionDesktop: {
     display: 'flex',
-    width: '10vw',
     justifyContent: 'space-between',
     marginRight: '5vw',
+    "& > button" : {
+      marginRight: "1em"
+    }
   },
   sectionMobile: {
     display: 'flex',
